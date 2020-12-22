@@ -1,6 +1,7 @@
 build:
   performance:
     test-performance-small-grakn-background:
+      machine: 16cpus-32gb
       image: graknlabs-ubuntu-20.04-long
       type: background
       timeout: "18000"
@@ -28,6 +29,7 @@ build:
           --api-token $GRABL_TOKEN \
           --config-file /home/grabl/$GRABL_REPO/config/config_test.yml
     test-performance-small-neo4j-background:
+      machine: 16cpus-32gb
       image: graknlabs-ubuntu-20.04-long
       type: background
       timeout: "18000"
