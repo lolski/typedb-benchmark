@@ -25,12 +25,12 @@ def graknlabs_dependencies():
         commit = "504561c1343b12cfb08cd65c25155045da0b709e",  # sync-marker: do not remove this comment, this is used for sync-dependencies by @graknlabs_dependencies
     )
 
-def graknlabs_client_java():
-    git_repository(
-        name = "graknlabs_client_java",
-        remote = "https://github.com/jmsfltchr/client-java",
-        commit = "730d539ba483a68ce3cc6a2b63515788474858ba",
-    )
+#def graknlabs_client_java():
+#    git_repository(
+#        name = "graknlabs_client_java",
+#        remote = "https://github.com/graknlabs/client-java",
+#        tag = "1.7.2",
+#    )
 
 def graknlabs_grabl_tracing():
     git_repository(

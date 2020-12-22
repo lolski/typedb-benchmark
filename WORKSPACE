@@ -142,32 +142,32 @@ rules_pkg_dependencies()
 load("//dependencies/graknlabs:repositories.bzl", "graknlabs_grabl_tracing")
 graknlabs_grabl_tracing()
 
-###############################
-# Load @graknlabs_client_java #
-###############################
-load("//dependencies/graknlabs:repositories.bzl", "graknlabs_client_java")
-graknlabs_client_java()
-load("@graknlabs_client_java//dependencies/maven:artifacts.bzl", graknlabs_client_java_artifacts = "artifacts")
+################################
+## Load @graknlabs_client_java #
+################################
+#load("//dependencies/graknlabs:repositories.bzl", "graknlabs_client_java")
+#graknlabs_client_java()
+#load("@graknlabs_client_java//dependencies/maven:artifacts.bzl", graknlabs_client_java_artifacts = "artifacts")
+
+#########################################################
+## Load @graknlabs_common (from @graknlabs_client_java) #
+########################################################
+#load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_common")
+#graknlabs_common()
 
 ########################################################
-# Load @graknlabs_common (from @graknlabs_client_java) #
-#######################################################
-load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_common")
-graknlabs_common()
+## Load @graknlabs_graql (from @graknlabs_client_java) #
+########################################################
+#load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_graql")
+#graknlabs_graql()
+#load("@graknlabs_graql//dependencies/maven:artifacts.bzl", graknlabs_graql_artifacts = "artifacts")
 
-#######################################################
-# Load @graknlabs_graql (from @graknlabs_client_java) #
-#######################################################
-load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_graql")
-graknlabs_graql()
-load("@graknlabs_graql//dependencies/maven:artifacts.bzl", graknlabs_graql_artifacts = "artifacts")
-
-##########################################################
-# Load @graknlabs_protocol (from @graknlabs_client_java) #
-##########################################################
-load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_protocol")
-graknlabs_protocol()
-load("@graknlabs_protocol//dependencies/maven:artifacts.bzl", graknlabs_protocol_artifacts = "artifacts")
+###########################################################
+## Load @graknlabs_protocol (from @graknlabs_client_java) #
+###########################################################
+#load("@graknlabs_client_java//dependencies/graknlabs:repositories.bzl", "graknlabs_protocol")
+#graknlabs_protocol()
+#load("@graknlabs_protocol//dependencies/maven:artifacts.bzl", graknlabs_protocol_artifacts = "artifacts")
 
 #######################################
 # Load @graknlabs_grakn_core_artifact #
@@ -180,18 +180,23 @@ graknlabs_grakn_core_artifact()
 ###############
 load("//dependencies/maven:artifacts.bzl", "artifacts")
 maven(
-    artifacts +
-    graknlabs_graql_artifacts +
-    graknlabs_protocol_artifacts +
-    graknlabs_client_java_artifacts
+    artifacts,
+#    graknlabs_graql_artifacts +
+#    graknlabs_protocol_artifacts +
+#    graknlabs_client_java_artifacts
 )
 
 load("@rules_jvm_external//:defs.bzl", rje_maven_install = "maven_install")
 rje_maven_install(
     name = "neo4j",
-    artifacts = ["org.neo4j.driver:neo4j-java-driver:4.1.0"],
+    artifacts = ["org.neo4j.driver:neo4j-java-driver:4.1.0",
+                 "io.grakn.client:grakn-client:1.7.2",
+                 "io.graql:graql-lang:1.0.6",
+                 "io.grakn.protocol:grakn-protocol:1.0.5",
+                 ],
     repositories = [
         "https://repo1.maven.org/maven2",
+        "https://repo.grakn.ai/repository/maven/",
     ],
     strict_visibility = True,
     version_conflict_policy = "pinned"

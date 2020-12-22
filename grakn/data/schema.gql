@@ -5,7 +5,7 @@ define
 #######################################################################
 
 name sub attribute,
-    value string;
+    datatype string;
 
 location-name sub name;
 
@@ -15,7 +15,7 @@ company-name sub organisation-name;
 #charity-name sub organisation-name;
 
 company-number sub attribute,
-    value long;
+    datatype long;
 
 forename sub name;
 
@@ -27,7 +27,7 @@ product-name sub name;
 
 date-of-event sub attribute,
     abstract,
-    value datetime;
+    datatype datetime;
 
 date-of-incorporation sub date-of-event;
 
@@ -42,57 +42,57 @@ date-of-marriage sub date-of-event;  # TODO unused
 relocation-date sub date-of-event;
 
 gender sub attribute,
-    value string;
+    datatype string;
 
 age sub attribute,
-    value long;
+    datatype long;
 
 language sub attribute,
-    value string,
+    datatype string,
     regex "^(English|German|Portugese|Afrikaans|Mandarin)$";
 
 #content-language sub attribute,
-#    value string;
+#    datatype string;
 
 #num-characters sub attribute,
-#    value long;
+#    datatype long;
 
 text-content sub attribute,
-    value string;
+    datatype string;
 #    has content-language, # Seems to break grakn when querying for this
 #    has num-characters;
 
 contract-content sub text-content;
 
 contracted-hours sub attribute,
-    value double;
+    datatype double;
 
-wage-value sub attribute,
-    value double;
+wage-datatype sub attribute,
+    datatype double;
 
 currency-code sub attribute,
-    value string,
+    datatype string,
     regex "^(USD|GBP|EUR|BRL|ZAR|RMB|AUD)$";
 
 currency sub attribute,
-    value string,
+    datatype string,
     regex "^(American Dollar|Great British Pound|Euro|Brazilian Real|South African Rand|Renminbi|Australian Dollar)$",
     has currency-code;
 
 value sub attribute,
-    value double;
+    datatype double;
 
 date-signed sub attribute,
-    value datetime;
+    datatype datetime;
 
 email sub attribute,
-    value string;
+    datatype string;
 
 identifier sub attribute,
-    value long;
+    datatype long;
 
 identifier-double sub attribute,
-    value double;
+    datatype double;
 
 marriage-id sub identifier;
 
@@ -101,20 +101,20 @@ marriage-id sub identifier;
 product-barcode sub identifier-double;
 
 description sub attribute,
-    value string;
+    datatype string;
 
 product-description sub description;
 
 product-quantity sub attribute,
-    value long;
+    datatype long;
 
 #service-description sub description;
 
 is-taxable sub attribute,
-    value boolean;
+    datatype boolean;
 
 is-current sub attribute,
-    value boolean;
+    datatype boolean;
 
 #######################################################################
 # Entities, Relations and Rules, by approximate category
