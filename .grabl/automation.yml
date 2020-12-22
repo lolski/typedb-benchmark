@@ -18,7 +18,7 @@ build:
       dependencies: [test-performance-small-grakn-background]
       script: |
         bazel run //:simulation-small -- \
-          --database grakn \
+          --database "Grakn Core 1.8.4" \
           --database-uri $GRABL_EXPORT_PERFORMANCE_SMALL_GRAKN_URI \
           --tracing-uri $GRABL_TRACING_URI \
           --org $GRABL_OWNER \
@@ -52,7 +52,7 @@ build:
       timeout: "18000"
       script: |
         bazel run //:simulation-small -- \
-          --database neo4j \
+          --database Neo4j \
           --database-uri $GRABL_EXPORT_PERFORMANCE_SMALL_NEO4J_URI \
           --tracing-uri $GRABL_TRACING_URI \
           --org $GRABL_OWNER \
