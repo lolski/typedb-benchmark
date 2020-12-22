@@ -18,7 +18,7 @@ build:
       dependencies: [test-performance-small-grakn-background]
       script: |
         bazel run //:simulation-small -- \
-          --database "Grakn Core 1.7.0" \
+          --database "Grakn Core 1.7.2" \
           --database-uri $GRABL_EXPORT_PERFORMANCE_SMALL_GRAKN_URI \
           --tracing-uri $GRABL_TRACING_URI \
           --org $GRABL_OWNER \

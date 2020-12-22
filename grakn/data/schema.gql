@@ -27,7 +27,7 @@ product-name sub name;
 
 date-of-event sub attribute,
     abstract,
-    datatype datetime;
+    datatype date;
 
 date-of-incorporation sub date-of-event;
 
@@ -67,7 +67,7 @@ contract-content sub text-content;
 contracted-hours sub attribute,
     datatype double;
 
-wage-datatype sub attribute,
+wage-value sub attribute,
     datatype double;
 
 currency-code sub attribute,
@@ -83,7 +83,7 @@ value sub attribute,
     datatype double;
 
 date-signed sub attribute,
-    datatype datetime;
+    datatype date;
 
 email sub attribute,
     datatype string;

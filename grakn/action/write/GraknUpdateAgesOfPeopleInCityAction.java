@@ -120,11 +120,7 @@ public class GraknUpdateAgesOfPeopleInCityAction extends UpdateAgesOfPeopleInCit
                     person
                             .isa(PERSON)
                             .has(EMAIL, personEmail)
-                            .has(AGE, age)
-            ).delete(
-                    person
-                            .has(AGE, age
-                            )
-            );
+                            .has(AGE, age, Graql.var("edge"))
+            ).delete("edge");
     }
 }
