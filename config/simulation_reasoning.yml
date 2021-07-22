@@ -30,7 +30,7 @@ agents:
   - name: "GrandparenthoodAgent"
     mode: TRACE
   - name: "LineageAgent"
-    mode: OFF
+    mode: TRACE
   - name: "NationalityAgent"
     mode: OFF
   - name: "CitizenshipAgent"
@@ -45,7 +45,7 @@ traceSampling:
 
 runParams:
   randomSeed: 1
-  iterations: 6
+  iterations: 7
   scaleFactor: 2
   databaseName: "simulation-reasoning"
 
