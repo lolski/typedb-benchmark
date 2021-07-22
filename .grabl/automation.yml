@@ -378,7 +378,7 @@ build:
         bazel run //:benchmark -- \
           --database typedb \
           --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_REASONING_URI \
-          --config /home/grabl/$GRABL_REPO/config/simulation_reasoning.yml \
+          --config /home/grabl/$GRABL_REPO/config/simulation.yml \
           --factory $GRABL_TRACING_URI \
           --org $GRABL_OWNER \
           --repo $GRABL_REPO \
