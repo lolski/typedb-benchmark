@@ -144,7 +144,7 @@ build:
     test-performance-typedb-cluster-one-benchmark:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
-      dependencies: [test-performance-typedb-cluster-one]
+      dependencies: [test-performance-typedb-cluster-one-server]
       timeout: "30m"
       command: |
         bazel run //:benchmark -- \
