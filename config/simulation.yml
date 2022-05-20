@@ -33,6 +33,6 @@ traceSampling:
 
 runParams:
   randomSeed: 1
-  iterations: 10
+  iterations: 50
   scaleFactor: 10
   databaseName: "simulation"
