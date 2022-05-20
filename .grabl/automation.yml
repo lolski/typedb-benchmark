@@ -121,7 +121,7 @@ build:
           --database typedb \
           --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI \
           --config /home/grabl/$GRABL_REPO/config/simulation.yml
-    test-performance-typedb-cluster-one:
+    test-performance-typedb-cluster-one-server:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
@@ -179,7 +179,7 @@ build:
         bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-2.txt grabl@$(cat /tmp/typedb-cluster-server-3.txt):/tmp/typedb-cluster-server-2.txt
 
         sleep 1800
-    test-performance-typedb-cluster-three-1:
+    test-performance-typedb-cluster-three-server-1:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
@@ -216,7 +216,7 @@ build:
       monitor: |
         sleep 20s
         tail -f -n +1 ./dist/typedb-cluster-all-linux/server/logs/typedb.log
-    test-performance-typedb-cluster-three-2:
+    test-performance-typedb-cluster-three-server-2:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
@@ -253,7 +253,7 @@ build:
       monitor: |
         sleep 20s
         tail -f -n +1 ./dist/typedb-cluster-all-linux/server/logs/typedb.log
-    test-performance-typedb-cluster-three-3:
+    test-performance-typedb-cluster-three-server-3:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
