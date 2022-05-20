@@ -151,7 +151,7 @@ build:
 
         bazel run //test:typedb-cluster-extractor-linux -- dist/typedb-cluster-all-linux
         cd ./dist/typedb-cluster-all-linux/
-        bazel run @vaticle_dependencies//tool/util:create-systemd-service -- typedb-cluster "\/home\/grabl\/$GRABL_REPO\/dist\/typedb-cluster-all-linux\/typedb cluster"
+        bazel run @vaticle_dependencies//tool/util:create-systemd-service -- typedb-cluster "\/home\/grabl\/$GRABL_REPO\/dist\/typedb-cluster-all-linux\/typedb cluster --server.address=${HOSTNAME}:1729"
 
         sudo systemctl daemon-reload
         sudo systemctl start typedb-cluster
