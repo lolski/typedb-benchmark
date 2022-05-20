@@ -158,25 +158,25 @@ build:
         branch: typedb-cluster
       type: background
       command: |
-        bazel run //ci:install-ssh-credential
+        bazel run @vaticle_dependencies//tool/util:install-ssh-credential
         export GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_BOOTSTRAPPER_URI="${HOSTNAME}"
 
       monitor: |
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-1.txt
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-2.txt
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-3.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-1.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-2.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-3.txt
 
         # to server 1
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-2.txt grabl@$(cat /tmp/typedb-cluster-server-1.txt):/tmp/typedb-cluster-server-2.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-3.txt grabl@$(cat /tmp/typedb-cluster-server-1.txt):/tmp/typedb-cluster-server-3.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-2.txt grabl@$(cat /tmp/typedb-cluster-server-1.txt):/tmp/typedb-cluster-server-2.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-3.txt grabl@$(cat /tmp/typedb-cluster-server-1.txt):/tmp/typedb-cluster-server-3.txt
         
         # to server 2
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-1.txt grabl@$(cat /tmp/typedb-cluster-server-2.txt):/tmp/typedb-cluster-server-1.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-3.txt grabl@$(cat /tmp/typedb-cluster-server-2.txt):/tmp/typedb-cluster-server-3.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-1.txt grabl@$(cat /tmp/typedb-cluster-server-2.txt):/tmp/typedb-cluster-server-1.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-3.txt grabl@$(cat /tmp/typedb-cluster-server-2.txt):/tmp/typedb-cluster-server-3.txt
 
         # to server 3
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-1.txt grabl@$(cat /tmp/typedb-cluster-server-3.txt):/tmp/typedb-cluster-server-1.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-2.txt grabl@$(cat /tmp/typedb-cluster-server-3.txt):/tmp/typedb-cluster-server-2.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-1.txt grabl@$(cat /tmp/typedb-cluster-server-3.txt):/tmp/typedb-cluster-server-1.txt
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-2.txt grabl@$(cat /tmp/typedb-cluster-server-3.txt):/tmp/typedb-cluster-server-2.txt
 
         sleep 1800
     test-performance-typedb-cluster-three-1:
@@ -189,14 +189,14 @@ build:
         export ARTIFACT_PASSWORD=$REPO_VATICLE_PASSWORD
         bazel run @vaticle_dependencies//distribution/artifact:create-netrc
 
-        bazel run //ci:install-ssh-credential
+        bazel run @vaticle_dependencies//tool/util:install-ssh-credential
 
         echo -n "${HOSTNAME}" > /tmp/typedb-cluster-server-1.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-1.txt \
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-1.txt \
           grabl@$GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_BOOTSTRAPPER_URI:/tmp/typedb-cluster-server-1.txt
 
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-2.txt
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-3.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-2.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-3.txt
 
         bazel run //test:typedb-cluster-extractor-linux -- dist/typedb-cluster-all-linux
         PEER_1=$(cat /tmp/typedb-cluster-server-1.txt)
@@ -226,14 +226,14 @@ build:
         export ARTIFACT_PASSWORD=$REPO_VATICLE_PASSWORD
         bazel run @vaticle_dependencies//distribution/artifact:create-netrc
 
-        bazel run //ci:install-ssh-credential
+        bazel run @vaticle_dependencies//tool/util:install-ssh-credential
 
         echo -n "${HOSTNAME}" > /tmp/typedb-cluster-server-2.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-2.txt \
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-2.txt \
           grabl@$GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_BOOTSTRAPPER_URI:/tmp/typedb-cluster-server-2.txt
 
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-1.txt
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-3.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-1.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-3.txt
 
         bazel run //test:typedb-cluster-extractor-linux -- dist/typedb-cluster-all-linux
         PEER_1=$(cat /tmp/typedb-cluster-server-1.txt)
@@ -263,14 +263,14 @@ build:
         export ARTIFACT_PASSWORD=$REPO_VATICLE_PASSWORD
         bazel run @vaticle_dependencies//distribution/artifact:create-netrc
 
-        bazel run //ci:install-ssh-credential
+        bazel run @vaticle_dependencies//tool/util:install-ssh-credential
 
         echo -n "${HOSTNAME}" > /tmp/typedb-cluster-server-3.txt
-        bazel run //ci:transfer-file -- /tmp/typedb-cluster-server-3.txt \
+        bazel run @vaticle_dependencies//tool/util:transfer-file -- /tmp/typedb-cluster-server-3.txt \
           grabl@$GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_BOOTSTRAPPER_URI:/tmp/typedb-cluster-server-3.txt
 
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-1.txt
-        bazel run //ci:wait-for-file -- /tmp/typedb-cluster-server-2.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-1.txt
+        bazel run @vaticle_dependencies//tool/util:wait-for-file -- /tmp/typedb-cluster-server-2.txt
 
         bazel run //test:typedb-cluster-extractor-linux -- dist/typedb-cluster-all-linux
         PEER_1=$(cat /tmp/typedb-cluster-server-1.txt)
