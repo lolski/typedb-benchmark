@@ -155,6 +155,7 @@ build:
 
         sudo systemctl daemon-reload
         sudo systemctl start typedb-cluster
+        export GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI="${HOSTNAME}:1729"
       monitor: |
         sleep 20s
         tail -f -n +1 ./dist/typedb-cluster-all-linux/server/logs/typedb.log
@@ -167,7 +168,7 @@ build:
       command: |
         bazel run //:benchmark -- \
           --database typedb-cluster \
-          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI \
+          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
           --config /home/grabl/$GRABL_REPO/config/simulation.yml
           
     # xxx
