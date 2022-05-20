@@ -130,7 +130,7 @@ build:
         export ARTIFACT_USERNAME=$REPO_VATICLE_USERNAME
         export ARTIFACT_PASSWORD=$REPO_VATICLE_PASSWORD
         bazel run @vaticle_dependencies//distribution/artifact:create-netrc
-
+`
         bazel run //test:typedb-cluster-extractor-linux -- dist/typedb-cluster-all-linux
         bazel run @vaticle_dependencies//tool/util:create-systemd-service -- typedb-cluster "\/home\/grabl\/$GRABL_REPO\/dist\/typedb-cluster-all-linux\/typedb cluster --server.address=${HOSTNAME}:1729"
 
@@ -153,9 +153,6 @@ build:
           --config /home/grabl/$GRABL_REPO/config/simulation.yml
     test-performance-typedb-cluster-three-bootstrapper:
       image: vaticle-ubuntu-21.04
-      filter:
-        owner: vaticle
-        branch: typedb-cluster
       type: background
       command: |
         bazel run @vaticle_dependencies//tool/util:install-ssh-credential
