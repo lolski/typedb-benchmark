@@ -183,6 +183,7 @@ build:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
+      dependencies: [test-performance-typedb-cluster-three-bootstrapper]
       timeout: "30m"
       command: |
         export ARTIFACT_USERNAME=$REPO_VATICLE_USERNAME
@@ -220,6 +221,7 @@ build:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
+      dependencies: [test-performance-typedb-cluster-three-bootstrapper]
       timeout: "30m"
       command: |
         export ARTIFACT_USERNAME=$REPO_VATICLE_USERNAME
@@ -257,6 +259,7 @@ build:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
       type: background
+      dependencies: [test-performance-typedb-cluster-three-bootstrapper]
       timeout: "30m"
       command: |
         export ARTIFACT_USERNAME=$REPO_VATICLE_USERNAME
@@ -293,7 +296,7 @@ build:
     test-performance-typedb-cluster-three-benchmark:
       machine: 8-core-16-gb
       image: vaticle-ubuntu-21.04
-      dependencies: [test-performance-typedb-cluster-one]
+      dependencies: [test-performance-typedb-cluster-three-server-1, test-performance-typedb-cluster-three-server-2, test-performance-typedb-cluster-three-server-3]
       timeout: "30m"
       command: |
         bazel run //:benchmark -- \
