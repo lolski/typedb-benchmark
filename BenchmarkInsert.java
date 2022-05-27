@@ -17,8 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import static com.vaticle.typedb.common.collection.Collections.set;
@@ -56,9 +56,9 @@ public class BenchmarkInsert {
         long start = System.currentTimeMillis();
         try (TypeDBClient client = createClient(isCore, address)) {
             Util.insertPersonType(db, client);
-            Util.assertPersonType(db, client);
+//            Util.assertPersonType(db, client);
             Util.insertPerson(db, count, client);
-            Util.assertPerson(db, count, client);
+//            Util.assertPerson(db, count, client);
         }
         System.out.println("'Insertion benchmark' finished in " + (System.currentTimeMillis() - start)  + "ms");
     }
@@ -101,15 +101,34 @@ public class BenchmarkInsert {
             }
         }
 
-        public static int insertPerson(String database, int count, TypeDBClient client) {
-            return insertPerson(database, 0, count, client);
+        public static void insertPerson(String database, int count, TypeDBClient client) {
+            insertPerson(database, client, 0, count);
         }
 
-        public static int insertPerson(String database, int start, int count, TypeDBClient client) {
-            int inserted = 0;
-            for (int i = start; i < (count+start); ++i) {
-                try (TypeDBSession session = client.session(database, TypeDBSession.Type.DATA);
-                     TypeDBTransaction tx = session.transaction(TypeDBTransaction.Type.WRITE)) {
+        public static void insertPerson(String database, TypeDBClient client, int start, int count) {
+            try (TypeDBSession session = client.session(database, TypeDBSession.Type.DATA)) {
+                int parallelism = 16;
+                int countPerThread = count / 16;
+                CompletableFuture[] insertions = new CompletableFuture[parallelism];
+                for (int insertionIdx = 0; insertionIdx < insertions.length; ++insertionIdx) {
+                    final int idx = insertionIdx;
+                    CompletableFuture<Void> insertion = CompletableFuture.supplyAsync(() -> {
+                        insertPerson(session, start, idx, countPerThread);
+                        return null;
+                    });
+                    insertions[insertionIdx] = insertion;
+                }
+                CompletableFuture.allOf(insertions).join();
+            } catch (TypeDBClientException e) {
+                LOG.error("An error has occurred during the insertion of a person instance", e);
+            }
+        }
+
+        private static void insertPerson(TypeDBSession session, int start, int batchIdx, int countPerBatch) {
+            int startPerBatch = start + (batchIdx * countPerBatch);
+            System.out.println("Batch " + batchIdx + ": started (start=" + startPerBatch + ", count=" + countPerBatch + ")");
+            for (int i = startPerBatch; i < startPerBatch+countPerBatch; ++i) {
+                try (TypeDBTransaction tx = session.transaction(TypeDBTransaction.Type.WRITE)) {
                     TypeQLInsert query = insert(
                             var("p").isa("person")
                                     .has("username", "username" + i)
@@ -117,12 +136,9 @@ public class BenchmarkInsert {
                     );
                     tx.query().insert(query);
                     tx.commit();
-                    inserted++;
-                } catch (TypeDBClientException e) {
-                    LOG.error("An error has occurred during the insertion of a person instance", e);
                 }
             }
-            return inserted;
+            System.out.println("Batch " + batchIdx + ": finished");
         }
 
         public static void assertPerson(String database, int count, TypeDBClient client) {
