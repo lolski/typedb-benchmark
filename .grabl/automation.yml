@@ -117,10 +117,11 @@ build:
       dependencies: [test-performance-typedb-core-server]
       timeout: "30m"
       command: |
-        bazel run //:benchmark -- \
-          --database typedb \
-          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI \
-          --config /home/grabl/$GRABL_REPO/config/simulation.yml
+        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI 50000
+#        bazel run //:benchmark -- \
+#          --database typedb \
+#          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI \
+#          --config /home/grabl/$GRABL_REPO/config/simulation.yml
     test-performance-typedb-cluster-one-server:
       machine: 16-core-32-gb
       image: vaticle-ubuntu-21.04
@@ -147,10 +148,11 @@ build:
       dependencies: [test-performance-typedb-cluster-one-server]
       timeout: "30m"
       command: |
-        bazel run //:benchmark -- \
-          --database typedb-cluster \
-          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
-          --config /home/grabl/$GRABL_REPO/config/simulation.yml
+        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
+#        bazel run //:benchmark -- \
+#          --database typedb-cluster \
+#          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
+#          --config /home/grabl/$GRABL_REPO/config/simulation.yml
     test-performance-typedb-cluster-three-bootstrapper:
       image: vaticle-ubuntu-21.04
       type: background
@@ -296,10 +298,11 @@ build:
       dependencies: [test-performance-typedb-cluster-three-server-1, test-performance-typedb-cluster-three-server-2, test-performance-typedb-cluster-three-server-3]
       timeout: "30m"
       command: |
-        bazel run //:benchmark -- \
-          --database typedb-cluster \
-          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
-          --config /home/grabl/$GRABL_REPO/config/simulation.yml
+        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
+#        bazel run //:benchmark -- \
+#          --database typedb-cluster \
+#          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
+#          --config /home/grabl/$GRABL_REPO/config/simulation.yml
 
 
     # xxx
