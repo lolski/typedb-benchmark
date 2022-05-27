@@ -33,32 +33,44 @@ import static org.junit.Assert.assertEquals;
 public class BenchmarkInsert {
     
     public static void main(String[] args) {
-        if (args.length != 2) {
-            throw new RuntimeException("Address and count must be specified");
+        if (args.length != 3) {
+            throw new RuntimeException("Product, address and count must be specified");
         }
-        String address = args[0];
+        boolean isCore = args[0].equals("typedb");
+
+        String address = args[1];
         int count;
         try {
-            count = Integer.parseInt(args[1]);
+            count = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
             throw new RuntimeException("count must be a number");
         }
 
         String db = "benchmark-insert";
         System.out.println("Creating database " + db  + "...");
-        try (TypeDBClient.Cluster client = TypeDB.clusterClient(address, new TypeDBCredential("admin", "password", false))) {
+        try (TypeDBClient client = createClient(isCore, address)) {
             if (client.databases().contains(db)) client.databases().get(db).delete();
             client.databases().create(db);
         }
         System.out.println("Performing 'insertion benchmark' with " + count + " instances...");
         long start = System.currentTimeMillis();
-        try (TypeDBClient.Cluster client = TypeDB.clusterClient(address, new TypeDBCredential("admin", "password", false))) {
+        try (TypeDBClient client = createClient(isCore, address)) {
             Util.insertPersonType(db, client);
             Util.assertPersonType(db, client);
             Util.insertPerson(db, count, client);
             Util.assertPerson(db, count, client);
         }
         System.out.println("'Insertion benchmark' finished in " + (System.currentTimeMillis() - start)  + "ms");
+    }
+
+    private static TypeDBClient createClient(boolean isCore, String address) {
+        if (isCore) {
+            System.out.println("Creating Core client...");
+            return TypeDB.coreClient(address);
+        } else {
+            System.out.println("Creating Cluster client...");
+            return TypeDB.clusterClient(address, new TypeDBCredential("admin", "password", false));
+        }
     }
 
     public static class Util {

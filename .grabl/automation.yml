@@ -117,7 +117,7 @@ build:
       dependencies: [test-performance-typedb-core-server]
       timeout: "30m"
       command: |
-        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI 50000
+        bazel run //:benchmark-insert typedb $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI 50000
 #        bazel run //:benchmark -- \
 #          --database typedb \
 #          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CORE_URI \
@@ -148,7 +148,7 @@ build:
       dependencies: [test-performance-typedb-cluster-one-server]
       timeout: "30m"
       command: |
-        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
+        bazel run //:benchmark-insert typedb-cluster $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
 #        bazel run //:benchmark -- \
 #          --database typedb-cluster \
 #          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
@@ -298,7 +298,7 @@ build:
       dependencies: [test-performance-typedb-cluster-three-server-1, test-performance-typedb-cluster-three-server-2, test-performance-typedb-cluster-three-server-3]
       timeout: "30m"
       command: |
-        bazel run //:benchmark-insert $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
+        bazel run //:benchmark-insert typedb-cluster $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI 50000
 #        bazel run //:benchmark -- \
 #          --database typedb-cluster \
 #          --address $GRABL_EXPORT_PERFORMANCE_TYPEDB_CLUSTER_SERVER_URI \
