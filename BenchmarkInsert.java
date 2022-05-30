@@ -108,26 +108,27 @@ public class BenchmarkInsert {
         public static void insertPerson(String database, TypeDBClient client, int start, int count) {
             try (TypeDBSession session = client.session(database, TypeDBSession.Type.DATA)) {
                 int parallelism = 16;
-                int countPerThread = count / 16;
-                CompletableFuture[] insertions = new CompletableFuture[parallelism];
-                for (int insertionIdx = 0; insertionIdx < insertions.length; ++insertionIdx) {
-                    final int idx = insertionIdx;
-                    CompletableFuture<Void> insertion = CompletableFuture.supplyAsync(() -> {
-                        insertPerson(session, start, idx, countPerThread);
-                        return null;
+                CompletableFuture[] groups = new CompletableFuture[parallelism];
+                for (int groupIdx = 0; groupIdx < groups.length; ++groupIdx) {
+                    final int idx = groupIdx;
+                    CompletableFuture<Void> group = CompletableFuture.runAsync(() -> {
+                        int groupCount = count / 16;
+                        int groupStart = start + (idx * groupCount);
+                        int groupEnd = groupStart+groupCount;
+                        System.out.println("Batch " + idx + ": started (start=" + groupStart + ", count=" + groupCount + ")");
+                        insertPerson(session, groupStart, groupEnd);
+                        System.out.println("Batch " + idx + ": finished");
                     });
-                    insertions[insertionIdx] = insertion;
+                    groups[groupIdx] = group;
                 }
-                CompletableFuture.allOf(insertions).join();
+                CompletableFuture.allOf(groups).join();
             } catch (TypeDBClientException e) {
                 LOG.error("An error has occurred during the insertion of a person instance", e);
             }
         }
 
-        private static void insertPerson(TypeDBSession session, int start, int batchIdx, int countPerBatch) {
-            int startPerBatch = start + (batchIdx * countPerBatch);
-            System.out.println("Batch " + batchIdx + ": started (start=" + startPerBatch + ", count=" + countPerBatch + ")");
-            for (int i = startPerBatch; i < startPerBatch+countPerBatch; ++i) {
+        private static void insertPerson(TypeDBSession session, int groupStart, int groupEnd) {
+            for (int i = groupStart; i < groupEnd; ++i) {
                 try (TypeDBTransaction tx = session.transaction(TypeDBTransaction.Type.WRITE)) {
                     TypeQLInsert query = insert(
                             var("p").isa("person")
@@ -138,7 +139,6 @@ public class BenchmarkInsert {
                     tx.commit();
                 }
             }
-            System.out.println("Batch " + batchIdx + ": finished");
         }
 
         public static void assertPerson(String database, int count, TypeDBClient client) {
