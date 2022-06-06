@@ -112,7 +112,7 @@ public class BenchmarkInsert {
                 for (int groupIdx = 0; groupIdx < groups.length; ++groupIdx) {
                     final int idx = groupIdx;
                     CompletableFuture<Void> group = CompletableFuture.runAsync(() -> {
-                        int groupCount = count / 16;
+                        int groupCount = count / parallelism;
                         int groupStart = start + (idx * groupCount);
                         int groupEnd = groupStart+groupCount;
                         System.out.println("Batch " + idx + ": started (start=" + groupStart + ", count=" + groupCount + ")");
